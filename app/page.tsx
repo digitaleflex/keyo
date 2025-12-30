@@ -1,6 +1,7 @@
 import { PasswordGenerator } from "@/components/password-generator"
 import { BlogCards } from "@/components/blog-cards"
 import { SecurityInfo } from "@/components/security-info"
+import { KeyoLogo } from "@/components/keyo-logo"
 
 export default function Home() {
   return (
@@ -13,7 +14,8 @@ export default function Home() {
 
       <div className="container mx-auto px-4 py-12 max-w-7xl relative z-10">
         {/* Header */}
-        <header className="text-center mb-16 space-y-4">
+        <header className="text-center mb-16 space-y-4 flex flex-col items-center">
+          <KeyoLogo className="w-20 h-20 mb-6 drop-shadow-[0_0_15px_rgba(124,58,237,0.5)] animate-float" />
           <div className="inline-block p-2 px-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-sm font-medium text-primary-foreground/80 mb-4">
             Sécurité Avancée
           </div>
