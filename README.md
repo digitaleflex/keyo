@@ -1,30 +1,59 @@
-# Password generator clone
+# Keyo 🔒
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+**Keyo** est un générateur de mots de passe en ligne moderne, sécurisé et élégant. Conçu avec une interface "Premium" en glassmorphism, il allie robustesse cryptographique et expérience utilisateur fluide.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/audesteurins-projects/v0-password-generator-clone)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/uuDlCGxh5Zd)
+![Keyo Preview](./public/placeholder-logo.png)
 
-## Overview
+## ✨ Fonctionnalités
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+*   **Génération Sécurisée** : Algorithmes robustes pour créer des mots de passe incassables.
+*   **Personnalisation Complète** : Choix de la longueur, inclusion de symboles, chiffres, lettres, exclusion de caractères similaires.
+*   **Interface Premium** : Design moderne avec effets de verre (Glassmorphism), animations fluides et thèmes sombres profonds.
+*   **Actualités Tech & Sécurité** : Flux RSS intégrés (ZATAZ, Korben) pour rester informé des dernières menaces et nouveautés.
+*   **Conseils de Sécurité** : Guide intégré sur les bonnes pratiques (2FA, gestionnaires, etc.).
 
-## Deployment
+## 🛠️ Stack Technique
 
-Your project is live at:
+*   **Framework** : [Next.js 15](https://nextjs.org/) (App Directory)
+*   **Langage** : [TypeScript](https://www.typescriptlang.org/)
+*   **Styling** : [Tailwind CSS v4](https://tailwindcss.com/) + [Radix UI](https://www.radix-ui.com/)
+*   **Icônes** : [Lucide React](https://lucide.dev/)
+*   **RSS** : `rss-parser` pour l'agrégation de news
 
-**[https://vercel.com/audesteurins-projects/v0-password-generator-clone](https://vercel.com/audesteurins-projects/v0-password-generator-clone)**
+## 🚀 Installation & Démarrage
 
-## Build your app
+1.  **Cloner le dépôt**
+    ```bash
+    git clone https://github.com/digitaleflex/keyo.git
+    cd keyo
+    ```
 
-Continue building your app on:
+2.  **Installer les dépendances**
+    ```bash
+    pnpm install
+    # ou
+    npm install
+    ```
 
-**[https://v0.app/chat/uuDlCGxh5Zd](https://v0.app/chat/uuDlCGxh5Zd)**
+3.  **Lancer le serveur de développement**
+    ```bash
+    pnpm dev
+    ```
 
-## How It Works
+4.  Ouvrir [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## 🏗️ Build & Production
+
+Pour créer une version de production optimisée :
+
+```bash
+pnpm build
+pnpm start
+```
+
+## 📄 Licence
+
+Ce projet est sous licence MIT.
+
+---
+*Développé avec ❤️ pour la sécurité de vos données.*
