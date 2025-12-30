@@ -2,19 +2,29 @@ import { PasswordGenerator } from "@/components/password-generator"
 import { BlogCards } from "@/components/blog-cards"
 import { SecurityInfo } from "@/components/security-info"
 import { KeyoLogo } from "@/components/keyo-logo"
+import { ToolsSection } from "@/components/sections/tools-section"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
+import { SecurityTicker } from "@/components/security-ticker"
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <div className="w-full relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[120px] animate-float" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent/20 blur-[120px] animate-float" style={{ animationDelay: "2s" }} />
       </div>
 
-      <div className="container mx-auto px-4 py-12 max-w-7xl relative z-10">
-        {/* Header */}
-        <header className="text-center mb-16 space-y-4 flex flex-col items-center">
+      <div className="container mx-auto px-4 py-12 max-w-7xl relative z-10 flex flex-col items-center">
+        {/* Security Ticker */}
+        <div className="w-full max-w-5xl mb-12 rounded-lg overflow-hidden border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+          <SecurityTicker />
+        </div>
+
+        {/* Hero Section */}
+        <header className="text-center mb-12 space-y-4 flex flex-col items-center max-w-3xl">
           <KeyoLogo className="w-20 h-20 mb-6 drop-shadow-[0_0_15px_rgba(124,58,237,0.5)] animate-float" />
           <div className="inline-block p-2 px-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-sm font-medium text-primary-foreground/80 mb-4">
             Sécurité Avancée
@@ -23,28 +33,44 @@ export default function Home() {
             Keyo
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-light">
-            Générateur De MOT DE PASSE En Ligne
+            La plateforme tout-en-un pour votre sécurité numérique.
           </p>
         </header>
 
         {/* Password Generator */}
         <PasswordGenerator />
 
-        {/* Blog Cards */}
-        <div className="mt-24">
-          <BlogCards />
+        {/* Security Tools Section Wrapper */}
+        <div className="w-full bg-black/20 backdrop-blur-sm mt-16 py-8 rounded-3xl border border-white/5 relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-3xl" />
+          <ToolsSection />
+          <div className="flex justify-center mt-4 relative z-10">
+            <Link href="/tools">
+              <Button variant="ghost" className="gap-2 hover:bg-white/10">
+                Voir plus d'outils <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Blog Cards Wrapper */}
+        <div className="mt-16 w-full">
+          <div className="flex items-center justify-between mb-8 px-4">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Dernières Actualités</h2>
+            <Link href="/blog">
+              <Button variant="ghost" className="gap-2 hover:bg-white/10">
+                Voir le blog <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <BlogCards limit={3} />
         </div>
 
         {/* Security Information */}
-        <div className="mt-24">
+        <div className="mt-24 w-full">
           <SecurityInfo />
         </div>
-
-        {/* Footer */}
-        <footer className="mt-24 text-center text-sm text-muted-foreground pb-8 border-t border-white/10 pt-8">
-          <p>© {new Date().getFullYear()} Keyo. Sécurité et confidentialité garanties.</p>
-        </footer>
       </div>
-    </main>
+    </div>
   )
 }

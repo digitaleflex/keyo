@@ -19,15 +19,22 @@ export const metadata: Metadata = {
   },
 }
 
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
-        {children}
+    <html lang="fr">
+      <body className={`font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
+        <SiteHeader />
+        <main className="flex-1 flex flex-col items-center">
+          {children}
+        </main>
+        <SiteFooter />
         <Analytics />
       </body>
     </html>

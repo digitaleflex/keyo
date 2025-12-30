@@ -3,8 +3,13 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Newspaper, Rss } from "lucide-react"
 import { getLatestTechNews } from "@/lib/rss"
 
-export async function BlogCards() {
-  const blogPosts = await getLatestTechNews()
+interface BlogCardsProps {
+  limit?: number
+}
+
+export async function BlogCards({ limit }: BlogCardsProps) {
+  const allPosts = await getLatestTechNews()
+  const blogPosts = limit ? allPosts.slice(0, limit) : allPosts
 
   return (
     <div className="mb-12">
@@ -13,7 +18,7 @@ export async function BlogCards() {
           <Newspaper className="w-6 h-6 text-primary" />
         </div>
         <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
-          Actualités Tech & Sécurité
+          Cyber Watch
         </h2>
       </div>
 

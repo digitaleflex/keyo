@@ -124,6 +124,7 @@
 
   /* Custom Animations for Premium Feel */
   --animate-float: float 6s ease-in-out infinite;
+  --animate-ticker: ticker 40s linear infinite;
 
   @keyframes float {
     0% {
@@ -136,6 +137,16 @@
 
     100% {
       transform: translateY(0px);
+    }
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
     }
   }
 }
