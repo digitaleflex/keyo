@@ -1,7 +1,8 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { KeyRound, Dice5 } from "lucide-react"
+import { KeyRound, Dice5, Loader2 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ClassicControls } from "./password-generator/classic-controls"
 import { DicewareControls } from "./password-generator/diceware-controls"
@@ -10,6 +11,11 @@ import { usePasswordGenerator } from "@/hooks/use-password-generator"
 
 export function PasswordGenerator() {
   const { passwords, state, actions, constants } = usePasswordGenerator()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <Card className="mb-12 border-0 bg-white/5 backdrop-blur-2xl shadow-2xl ring-1 ring-white/10 overflow-hidden">
@@ -24,64 +30,71 @@ export function PasswordGenerator() {
       </CardHeader>
 
       <CardContent className="space-y-8 p-6 md:p-8">
-        <Tabs value={state.activeTab} onValueChange={state.setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 bg-black/20">
-            <TabsTrigger value="classic" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
-              <KeyRound className="w-4 h-4 mr-2" />
-              Aléatoire Classique
-            </TabsTrigger>
-            <TabsTrigger value="diceware" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
-              <Dice5 className="w-4 h-4 mr-2" />
-              Passphrase (Diceware)
-            </TabsTrigger>
-          </TabsList>
+        {mounted ? (
+          <Tabs value={state.activeTab} onValueChange={state.setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8 bg-black/20">
+              <TabsTrigger value="classic" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+                <KeyRound className="w-4 h-4 mr-2" />
+                Aléatoire Classique
+              </TabsTrigger>
+              <TabsTrigger value="diceware" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+                <Dice5 className="w-4 h-4 mr-2" />
+                Passphrase (Diceware)
+              </TabsTrigger>
+            </TabsList>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Left Column: Settings */}
-            <div className="space-y-6">
-              <TabsContent value="classic" className="mt-0">
-                <ClassicControls
-                  includeNumbers={state.includeNumbers}
-                  setIncludeNumbers={state.setIncludeNumbers}
-                  includeLowercase={state.includeLowercase}
-                  setIncludeLowercase={state.setIncludeLowercase}
-                  includeUppercase={state.includeUppercase}
-                  setIncludeUppercase={state.setIncludeUppercase}
-                  excludeSimilar={state.excludeSimilar}
-                  setExcludeSimilar={state.setExcludeSimilar}
-                  passwordLength={state.passwordLength}
-                  setPasswordLength={state.setPasswordLength}
-                  specialChars={constants.SPECIAL_CHARS}
-                  selectedSpecialChars={state.selectedSpecialChars}
-                  toggleSpecialChar={actions.toggleSpecialChar}
-                  selectAllSpecialChars={actions.selectAllSpecialChars}
-                  deselectAllSpecialChars={actions.deselectAllSpecialChars}
-                />
-              </TabsContent>
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Left Column: Settings */}
+              <div className="space-y-6">
+                <TabsContent value="classic" className="mt-0">
+                  <ClassicControls
+                    includeNumbers={state.includeNumbers}
+                    setIncludeNumbers={state.setIncludeNumbers}
+                    includeLowercase={state.includeLowercase}
+                    setIncludeLowercase={state.setIncludeLowercase}
+                    includeUppercase={state.includeUppercase}
+                    setIncludeUppercase={state.setIncludeUppercase}
+                    excludeSimilar={state.excludeSimilar}
+                    setExcludeSimilar={state.setExcludeSimilar}
+                    passwordLength={state.passwordLength}
+                    setPasswordLength={state.setPasswordLength}
+                    specialChars={constants.SPECIAL_CHARS}
+                    selectedSpecialChars={state.selectedSpecialChars}
+                    toggleSpecialChar={actions.toggleSpecialChar}
+                    selectAllSpecialChars={actions.selectAllSpecialChars}
+                    deselectAllSpecialChars={actions.deselectAllSpecialChars}
+                  />
+                </TabsContent>
 
-              <TabsContent value="diceware" className="mt-0">
-                <DicewareControls
-                  passphraseLength={state.passphraseLength}
-                  setPassphraseLength={state.setPassphraseLength}
-                  passphraseSeparator={state.passphraseSeparator}
-                  setPassphraseSeparator={state.setPassphraseSeparator}
-                  capitalize={state.capitalize}
-                  setCapitalize={state.setCapitalize}
-                />
-              </TabsContent>
+                <TabsContent value="diceware" className="mt-0">
+                  <DicewareControls
+                    passphraseLength={state.passphraseLength}
+                    setPassphraseLength={state.setPassphraseLength}
+                    passphraseSeparator={state.passphraseSeparator}
+                    setPassphraseSeparator={state.setPassphraseSeparator}
+                    capitalize={state.capitalize}
+                    setCapitalize={state.setCapitalize}
+                  />
+                </TabsContent>
+              </div>
+
+              {/* Right Column: Output */}
+              <PasswordDisplay
+                passwords={passwords}
+                passwordCount={state.passwordCount}
+                setPasswordCount={state.setPasswordCount}
+                copyToClipboard={actions.copyToClipboard}
+                generate={actions.generate}
+                getStrength={actions.getStrengthAndColor}
+              />
             </div>
-
-            {/* Right Column: Output */}
-            <PasswordDisplay
-              passwords={passwords}
-              passwordCount={state.passwordCount}
-              setPasswordCount={state.setPasswordCount}
-              copyToClipboard={actions.copyToClipboard}
-              generate={actions.generate}
-              getStrength={actions.getStrengthAndColor}
-            />
+          </Tabs>
+        ) : (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
-        </Tabs>
+        )}
+
 
         {/* USB Key Ad */}
         <div className="pt-6 border-t border-white/5 flex justify-center">

@@ -5,6 +5,8 @@ import { signUp } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Loader2, Mail, Lock, User } from "lucide-react"
 import { toast } from "sonner"
+import { SocialButtons } from "./social-buttons"
+import { Divider } from "./divider"
 import { AuthCard } from "./auth-card"
 import { InputField } from "./input-field"
 
@@ -41,6 +43,8 @@ export function SignUpForm() {
 
     return (
         <AuthCard title="Créer un compte" description="Démarrez votre sécurité dès maintenant">
+            <SocialButtons />
+            <Divider />
             <form onSubmit={handleSubmit} className="space-y-4">
                 <InputField
                     id="name"

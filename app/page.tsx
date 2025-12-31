@@ -1,14 +1,35 @@
 import { PasswordGenerator } from "@/components/password-generator"
-import { BlogCards } from "@/components/blog-cards"
 import { SecurityInfo } from "@/components/security-info"
 import { KeyoLogo } from "@/components/keyo-logo"
 import { ToolsSection } from "@/components/sections/tools-section"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Newspaper } from "lucide-react"
 import { SecurityTicker } from "@/components/security-ticker"
+import prisma from "@/lib/db"
+import ThreatRadar from "@/components/dashboard/threat-radar"
+import IntelCard from "@/components/dashboard/intel-card"
 
-export default function Home() {
+export default async function Home() {
+  // Fetch Intelligence Data
+  const articles = await prisma.securityArticle.findMany({
+    where: { status: "Published" },
+    orderBy: { publishedAt: 'desc' },
+    take: 6
+  })
+
+  // Normalize data for components
+  const intelItems = articles.map(a => ({
+    id: a.id,
+    title: a.title,
+    source: a.source,
+    summary: a.summary,
+    geminiScore: a.geminiScore,
+    category: a.category,
+    publishedAt: a.publishedAt,
+    url: a.url
+  }))
+
   return (
     <div className="w-full relative overflow-hidden">
       {/* Decorative Elements */}
@@ -30,18 +51,50 @@ export default function Home() {
             Sécurité Avancée
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 tracking-tight leading-tight mb-4">
-            Keyo
+            Keyo Intelligence
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-light">
-            La plateforme tout-en-un pour votre sécurité numérique.
+            Bien plus qu'un générateur. Votre centre de commandement pour la sécurité numérique et la veille stratégique.
           </p>
         </header>
 
+        {/* Threat Radar (Dashboard) */}
+        <div className="w-full max-w-5xl mb-16">
+          <ThreatRadar items={intelItems} />
+        </div>
+
         {/* Password Generator */}
-        <PasswordGenerator />
+        <div className="mb-16">
+          <PasswordGenerator />
+        </div>
+
+        {/* Intelligence Grid (Replaces BlogCards) */}
+        <div className="w-full max-w-7xl mt-8">
+          <div className="flex items-center justify-between mb-8 px-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                <Newspaper className="w-6 h-6 text-blue-400" />
+              </div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                Flux Intelligence <span className="text-sm font-normal text-muted-foreground ml-2">(Live)</span>
+              </h2>
+            </div>
+            <Link href="/blog">
+              <Button variant="ghost" className="gap-2 hover:bg-white/10 text-xs uppercase tracking-wider">
+                Voir Tout <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {intelItems.map((item) => (
+              <IntelCard key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
 
         {/* Security Tools Section Wrapper */}
-        <div className="w-full bg-black/20 backdrop-blur-sm mt-16 py-8 rounded-3xl border border-white/5 relative group">
+        <div className="w-full bg-black/20 backdrop-blur-sm mt-24 py-8 rounded-3xl border border-white/5 relative group max-w-5xl">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-3xl" />
           <ToolsSection />
           <div className="flex justify-center mt-4 relative z-10">
@@ -51,19 +104,6 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-        </div>
-
-        {/* Blog Cards Wrapper */}
-        <div className="mt-16 w-full">
-          <div className="flex items-center justify-between mb-8 px-4">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Dernières Actualités</h2>
-            <Link href="/blog">
-              <Button variant="ghost" className="gap-2 hover:bg-white/10">
-                Voir le blog <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-          <BlogCards limit={3} />
         </div>
 
         {/* Security Information */}

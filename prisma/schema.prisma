@@ -40,18 +40,23 @@ model Session {
 }
 
 model Account {
-    id           String    @id
+    id           String    @id @default(cuid())
     userId       String
     accountId    String
     providerId   String
-    accessToken  String?
-    refreshToken String?
-    expiresAt    DateTime?
+    accessToken  String?   @map("access_token")
+    refreshToken String?   @map("refresh_token")
+    expiresAt    DateTime? @map("expires_at")
+    tokenType    String?   @map("token_type")
+    scope        String?
+    idToken      String?   @map("id_token") @db.Text
     password     String?
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("account")
 }
 
 model Verification {
@@ -83,4 +88,18 @@ model ApiKey {
 
     userId String
     user   User   @relation(fields: [userId], references: [id])
+}
+
+model SecurityArticle {
+    id          String   @id @default(cuid())
+    title       String
+    summary     String
+    url         String   @unique
+    source      String
+    publishedAt DateTime
+    geminiScore Int
+    finalScore  Float
+    category    String
+    status      String
+    createdAt   DateTime @default(now())
 }

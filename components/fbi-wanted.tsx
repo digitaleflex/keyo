@@ -54,7 +54,16 @@ export function FbiWanted() {
     }
 
     if (fugitives.length === 0) {
-        return null
+        return (
+            <Card className="w-full h-[500px] flex flex-col items-center justify-center backdrop-blur-md bg-white/5 border-white/10 text-center p-6">
+                <AlertTriangle className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+                <h3 className="text-xl font-bold text-white mb-2">Aucune Donnée Disponible</h3>
+                <p className="text-muted-foreground max-w-sm">Impossible de charger le flux FBI pour le moment. Vérifiez votre connexion ou réessayez plus tard.</p>
+                <Button variant="outline" onClick={() => window.location.reload()} className="mt-6 border-white/10 hover:bg-white/10">
+                    Actualiser
+                </Button>
+            </Card>
+        )
     }
 
     const current = fugitives[index]

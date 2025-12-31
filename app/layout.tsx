@@ -8,9 +8,9 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Keyo - Générateur De MOT DE PASSE En Ligne",
+  title: "Keyo - Suite de Sécurité Numérique & Intelligence",
   description:
-    "Créez des mots de passe forts et sécurisés en ligne. Générateur de mot de passe gratuit avec options personnalisables.",
+    "La plateforme ultime pour votre cybersécurité. Générateur de mots de passe, veille menaces en temps réel, et outils d'intelligence numérique.",
   generator: "v0.app",
   icons: {
     icon: "/logo.svg",
